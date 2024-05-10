@@ -1,0 +1,8 @@
+.user-chat-link {
+  @apply flex flex-row p-4 gap-4 m-1 rounded-lg hover:bg-slate-800
+         transition-all duration-200 items-center;
+}
+
+.user-chat-link svg {
+  @apply h-6 w-6;
+}
