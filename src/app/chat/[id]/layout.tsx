@@ -1,3 +1,7 @@
-export default function LayOut({ children }: { children: React.ReactNode }) {
+export default function MessageLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return <div>{children}</div>;
 }
