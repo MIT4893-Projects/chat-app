@@ -26,7 +26,13 @@ export default function RegisterForm() {
       </form>
 
       <p className="text-center">
-        Already have an account? <Link href="/">Sign in</Link>
+        Already have an account?{" "}
+        <Link
+          href="/"
+          className="text-sky-500 hover:underline underline-offset-4"
+        >
+          Sign in
+        </Link>
       </p>
     </>
   );

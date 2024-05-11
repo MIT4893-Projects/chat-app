@@ -25,7 +25,13 @@ export default function LoginForm() {
       </form>
 
       <p className="text-center">
-        Don't have an account? <Link href="/signup">Sign up</Link>
+        Don't have an account?{" "}
+        <Link
+          href="/signup"
+          className="text-sky-500 hover:underline underline-offset-4"
+        >
+          Sign up
+        </Link>
       </p>
     </>
   );
