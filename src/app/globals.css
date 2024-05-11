@@ -26,6 +26,10 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+a {
+  @apply text-sky-500 hover:underline underline-offset-4;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

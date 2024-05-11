@@ -1,0 +1,8 @@
+.register-form {
+  @apply flex flex-col gap-4 my-4;
+}
+
+.register-form input,
+.register-form button {
+  @apply py-2 px-4;
+}
