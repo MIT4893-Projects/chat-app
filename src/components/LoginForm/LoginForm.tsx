@@ -13,6 +13,7 @@ import styles from "./styles.module.css";
 export default function LoginForm() {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
   const handleLogin = async () => {
     const email = emailRef.current?.value;
@@ -22,6 +23,8 @@ export default function LoginForm() {
     const token = response.data.payload?.token;
 
     setCookie("token", token);
+
+    router.push("/chat");
   };
 
   return (
