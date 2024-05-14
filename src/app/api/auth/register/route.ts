@@ -15,11 +15,13 @@ export async function POST(request: Request) {
           })
         : await userModel.register(user).then(
             (result) => new JsonResponse({ payload: result }),
-            (reason) =>
-              new JsonErrorResponse({
+            (reason) => {
+              console.error("ERROR while registering new user", reason);
+              return new JsonErrorResponse({
                 status_code: HttpStatus.INTERNAL_SERVER_ERROR,
                 reason,
-              }),
+              });
+            },
           ),
     );
 }

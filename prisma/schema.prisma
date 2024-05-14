@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["omitApi"]
 }
 
 datasource db {
@@ -15,4 +16,10 @@ model User {
   email    String @unique
   name     String
   password String
+}
+
+model Token {
+  id     Int    @id @default(autoincrement())
+  userId Int
+  token  String
 }

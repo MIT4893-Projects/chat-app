@@ -4,14 +4,18 @@ import bcrypt from "bcrypt";
 
 import type { User } from "@prisma/client";
 import { Prisma } from "@prisma/client";
-import { UserRegisterInput } from "@/db/models/user";
+import { UserRegisterInput, UserLoginInput } from "@/db/models/user";
 import { hashPassword } from "@/auth/password";
 
 const prismaAuth = prisma.$extends({
   query: {
     user: {
       async create({ args, query }) {
-        args.select = { ...args.select, password: false };
+        args.omit = { ...args.omit, password: true };
+        return query(args);
+      },
+
+      async findUnique({ args, query }) {
         return query(args);
       },
     },
@@ -27,8 +31,10 @@ const prismaAuth = prisma.$extends({
         return await prismaAuth.user.create({ data: user });
       },
 
-      async login(user: User) {
-        user.password = await hashPassword(user.password);
+      async login(user: Prisma.UserWhereUniqueInput) {
+        user.password = await hashPassword(user.password as string);
+
+        user = UserLoginInput.parse(user);
 
         return await prisma.user.findUnique({ where: user });
       },
