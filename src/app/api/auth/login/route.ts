@@ -2,7 +2,7 @@ import userModel from "@/db/models/user";
 import { JsonErrorResponse, JsonResponse } from "@/models/response";
 import { comparePassword } from "@/auth/password";
 import { HttpStatus } from "http-status-ts";
-import { getUserToken, verifyUserToken } from "@/auth/token/jwt/user";
+import { getUserToken } from "@/auth/token/jwt/user";
 
 export async function POST(request: Request) {
   const user = await request.json();

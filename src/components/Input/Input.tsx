@@ -1,4 +1,5 @@
 import { cva, type VariantProps } from "class-variance-authority";
+import { forwardRef } from "react";
 
 export const inputVariants = cva(["rounded-full transition-all"], {
   variants: {
@@ -26,8 +27,12 @@ interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement>,
     VariantProps<typeof inputVariants> {}
 
-export const Input: React.FC<InputProps> = ({
-  variant,
-  className,
-  ...props
-}) => <input className={inputVariants({ variant, className })} {...props} />;
+export const Input = forwardRef<HTMLInputElement, InputProps>(
+  ({ variant, className, ...props }, ref) => (
+    <input
+      className={inputVariants({ variant, className })}
+      {...props}
+      ref={ref}
+    />
+  ),
+);
