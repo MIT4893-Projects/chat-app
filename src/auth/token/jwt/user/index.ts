@@ -5,6 +5,6 @@ export function getUserToken(user: User) {
   return generate({ object: user });
 }
 
-export function verifyUserToken(token: string) {
-  return verify(token);
+export async function verifyUserToken(token: string) {
+  return verify(token) as User;
 }

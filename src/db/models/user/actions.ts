@@ -2,7 +2,6 @@ import prisma from "@/db";
 
 import bcrypt from "bcrypt";
 
-import type { User } from "@prisma/client";
 import { Prisma } from "@prisma/client";
 import { UserRegisterInput, UserLoginInput } from "@/db/models/user";
 import { hashPassword } from "@/auth/password";
