@@ -1,27 +1,22 @@
+import {
+  InvalidJsonRes,
+  MissingFieldsRes,
+  RegisterUserExistsRes,
+  RegisterUserSuccessRes,
+} from "@/app/consts/responses";
 import userModel from "@/db/models/user";
-import { JsonErrorResponse, JsonResponse } from "@/models/response";
-import { HttpStatus } from "http-status-ts";
 
 export async function POST(request: Request) {
-  const user = await request.json();
-
-  return await userModel
-    .exists({ email: user.email })
-    .then(async (userExists) =>
-      userExists
-        ? new JsonErrorResponse({
-            status_code: HttpStatus.BAD_REQUEST,
-            message: "User with this email already exists",
-          })
-        : await userModel.register(user).then(
-            (result) => new JsonResponse({ payload: result }),
-            (reason) => {
-              console.error("ERROR while registering new user", reason);
-              return new JsonErrorResponse({
-                status_code: HttpStatus.INTERNAL_SERVER_ERROR,
-                reason,
-              });
-            },
-          ),
-    );
+  return await request.json().then(
+    (user) =>
+      userModel.exists({ email: user.email }).then(async (userExists) =>
+        userExists
+          ? RegisterUserExistsRes
+          : await userModel.register(user).then(
+              (user) => RegisterUserSuccessRes(user),
+              () => MissingFieldsRes,
+            ),
+      ),
+    () => InvalidJsonRes,
+  );
 }
