@@ -39,3 +39,9 @@ export class JsonErrorResponse extends JsonResponse {
     });
   }
 }
+
+export class JsonBadRequestResponse extends JsonErrorResponse {
+  constructor(error?: any) {
+    super({ status_code: HttpStatus.BAD_REQUEST, payload: error });
+  }
+}

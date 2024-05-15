@@ -1,4 +1,5 @@
 import { User } from "@prisma/client";
+import { verifyUserToken } from "@/auth/token/jwt/user";
 
 export default class UserEntity implements User {
   id: number;
@@ -10,5 +11,10 @@ export default class UserEntity implements User {
     this.name = name;
     this.email = email;
     this.password = password;
+  }
+
+  static async fromToken(token: string) {
+    const user = await verifyUserToken(token);
+    return new UserEntity(user);
   }
 }

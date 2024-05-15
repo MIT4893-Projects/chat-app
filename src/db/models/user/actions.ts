@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 import { Prisma } from "@prisma/client";
 import { UserRegisterInput, UserLoginInput } from "@/db/models/user";
 import { hashPassword } from "@/auth/password";
+import UserEntity from "./entity";
 
 const prismaAuth = prisma.$extends({
   query: {
@@ -40,6 +41,11 @@ const prismaAuth = prisma.$extends({
 
       async exists(user: Prisma.UserWhereUniqueInput) {
         return await prismaAuth.user.findUnique({ where: user });
+      },
+
+      async validateToken(token: string) {
+        const userEntity = await UserEntity.fromToken(token);
+        return await prismaAuth.user.exists(userEntity);
       },
     },
   },
