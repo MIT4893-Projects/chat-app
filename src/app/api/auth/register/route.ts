@@ -9,14 +9,16 @@ import userModel from "@/db/models/user";
 export async function POST(request: Request) {
   return await request.json().then(
     (user) =>
-      userModel.exists({ email: user.email }).then(async (userExists) =>
-        userExists
-          ? RegisterUserExistsRes
-          : await userModel.register(user).then(
-              (user) => RegisterUserSuccessRes(user),
-              () => MissingFieldsRes,
-            ),
+      userModel.exists({ email: user.email }).then(
+        async (userExists) =>
+          userExists
+            ? RegisterUserExistsRes()
+            : await userModel.register(user).then(
+                (user) => RegisterUserSuccessRes(user),
+                () => MissingFieldsRes(),
+              ),
+        () => MissingFieldsRes(),
       ),
-    () => InvalidJsonRes,
+    () => InvalidJsonRes(),
   );
 }

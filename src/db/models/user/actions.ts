@@ -24,17 +24,15 @@ const prismaAuth = prisma.$extends({
   model: {
     user: {
       async register(user: Prisma.UserCreateInput) {
-        user.password = await hashPassword(user.password);
-
         user = UserRegisterInput.parse(user);
+        user.password = await hashPassword(user.password);
 
         return await prismaAuth.user.create({ data: user });
       },
 
       async login(user: Prisma.UserWhereUniqueInput) {
-        user.password = await hashPassword(user.password as string);
-
         user = UserLoginInput.parse(user);
+        user.password = await hashPassword(user.password as string);
 
         return await prisma.user.findUnique({ where: user });
       },

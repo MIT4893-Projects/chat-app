@@ -15,11 +15,11 @@ export async function POST(request: Request) {
           foundUser &&
           (await comparePassword(user.password, foundUser.password));
 
-        if (!userMatch) return LoginFailedRes;
+        if (!userMatch) return LoginFailedRes();
 
         const token = getUserToken(foundUser);
         return LoginSuccessRes({ token });
       }),
-    () => InvalidJsonRes,
+    () => InvalidJsonRes(),
   );
 }

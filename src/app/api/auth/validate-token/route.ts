@@ -19,12 +19,12 @@ export async function POST(request: Request) {
 
         return await userModel.validateToken(token).then(
           (user) => (user ? ValidTokenRes : InvalidTokenRes),
-          () => InvalidTokenRes,
+          () => InvalidTokenRes(),
         );
       } catch {
-        return MissingFieldsRes;
+        return MissingFieldsRes();
       }
     },
-    () => InvalidJsonRes,
+    () => InvalidJsonRes(),
   );
 }
