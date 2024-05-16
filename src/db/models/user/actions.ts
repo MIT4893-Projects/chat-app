@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 
 import { Prisma } from "@prisma/client";
 import { UserRegisterInput, UserLoginInput } from "@/db/models/user";
-import { hashPassword } from "@/auth/password";
+import { comparePassword, hashPassword } from "@/auth/password";
 import UserEntity from "./entity";
 
 const prismaAuth = prisma.$extends({
@@ -12,10 +12,6 @@ const prismaAuth = prisma.$extends({
     user: {
       async create({ args, query }) {
         args.omit = { ...args.omit, password: true };
-        return query(args);
-      },
-
-      async findUnique({ args, query }) {
         return query(args);
       },
     },
@@ -32,9 +28,14 @@ const prismaAuth = prisma.$extends({
 
       async login(user: Prisma.UserWhereUniqueInput) {
         user = UserLoginInput.parse(user);
-        user.password = await hashPassword(user.password as string);
 
-        return await prisma.user.findUnique({ where: user });
+        const foundUser = await prisma.user.findUnique({
+          where: { email: user.email },
+        });
+
+        if (foundUser)
+          return comparePassword(user.password as string, foundUser.password);
+        return false;
       },
 
       async exists(user: Prisma.UserWhereUniqueInput) {
