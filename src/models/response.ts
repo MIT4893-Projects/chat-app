@@ -17,9 +17,12 @@ export class JsonResponse extends Response implements IJsonResponse {
     message,
     payload,
   }: IJsonResponse = {}) {
-    super(JSON.stringify({ status_code, message, payload }));
+    super(JSON.stringify({ status_code, message, payload }), {
+      status: status_code,
+    });
   }
 }
+
 export class JsonErrorResponse extends JsonResponse {
   constructor({ status_code, message, reason }: IJsonResponse = {}) {
     super({
