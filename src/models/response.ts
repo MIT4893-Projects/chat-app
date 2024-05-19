@@ -17,9 +17,7 @@ export class JsonResponse extends Response implements IJsonResponse {
     message,
     payload,
   }: IJsonResponse = {}) {
-    super(JSON.stringify({ status_code, message, payload }), {
-      status: status_code,
-    });
+    super(JSON.stringify({ status_code, message, payload }));
   }
 }
 
