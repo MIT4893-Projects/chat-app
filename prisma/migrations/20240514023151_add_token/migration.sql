@@ -1,6 +1,0 @@
--- CreateTable
-CREATE TABLE "Token" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "userId" INTEGER NOT NULL,
-    "token" TEXT NOT NULL
-);
