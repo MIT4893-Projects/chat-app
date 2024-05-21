@@ -13,7 +13,7 @@ export async function POST(request: Request) {
       userModel.login(user).then(
         async (success) =>
           success
-            ? LoginSuccessRes({ token: getUserToken(user) })
+            ? LoginSuccessRes({ token: await getUserToken(user) })
             : LoginFailedRes(),
         () => MissingFieldsRes(),
       ),

@@ -1,17 +1,18 @@
-import jwt, { Secret } from "jsonwebtoken";
+import { SignJWT, jwtVerify, type JWTPayload } from "jose";
 
-const JWT_SECRET = process.env.JWT_SECRET as Secret;
+const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
 
-export function generate({
-  object,
-  expiresIn = "1h",
-}: {
-  object: object;
-  expiresIn?: string | number;
-}): string {
-  return jwt.sign(object, JWT_SECRET, { expiresIn });
+export async function generate(payload: JWTPayload) {
+  const exp = "2h";
+
+  return await new SignJWT({ ...payload })
+    .setProtectedHeader({ alg: "HS256" })
+    .setIssuedAt()
+    .setExpirationTime(exp)
+    .sign(JWT_SECRET);
 }
 
-export function verify(token: string): object | string {
-  return jwt.verify(token, JWT_SECRET);
+export async function verify(token: string) {
+  const { payload } = await jwtVerify(token, JWT_SECRET);
+  return payload;
 }

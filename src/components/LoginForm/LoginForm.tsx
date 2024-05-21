@@ -19,12 +19,18 @@ export default function LoginForm() {
     const email = emailRef.current?.value;
     const password = passwordRef.current?.value;
 
-    const response = await axios.post("/api/auth/login", { email, password });
-    const token = response.data.payload?.token;
+    return await axios
+      .post("/api/auth/login", { email, password })
+      .then((response) => {
+        const token = response.data.payload?.token;
 
-    setCookie("token", token);
-
-    router.push("/chat");
+        if (token) {
+          setCookie("token", token);
+          router.push("/chat");
+        } else {
+          alert("Invalid email or password");
+        }
+      });
   };
 
   return (
